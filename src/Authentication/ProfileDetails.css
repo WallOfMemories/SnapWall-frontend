@@ -1,0 +1,102 @@
+@import "./Login.css";
+
+/* Wrapper */
+.profile-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+/* Title */
+.profile-title {
+  font-size: clamp(22px, 5vw, 32px);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* Subtitle */
+.profile-subtitle {
+  color: #9ca3af;
+  margin-bottom: 24px;
+  font-size: clamp(14px, 3.5vw, 16px);
+  max-width: 90%;
+}
+
+/* Avatar Section */
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+/* Avatar Circle */
+.avatar-circle {
+  width: clamp(90px, 30vw, 120px);
+  height: clamp(90px, 30vw, 120px);
+  border-radius: 50%;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+/* Avatar Image */
+.avatar-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Avatar Placeholder */
+.avatar-circle span {
+  font-size: clamp(28px, 8vw, 36px);
+  color: #9ca3af;
+}
+
+/* Upload Button */
+.upload-btn {
+  padding: 10px 24px;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background:
+    linear-gradient(white, white) padding-box,
+    linear-gradient(90deg, #A821EB, #34B8FF) border-box;
+  border: 2px solid transparent;
+  font-size: 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.upload-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  .profile-wrapper {
+    padding: 40px;
+  }
+
+  .profile-subtitle {
+    max-width: 420px;
+  }
+}
+
+/* Desktop and up */
+@media (min-width: 1024px) {
+  .profile-wrapper {
+    justify-content: center;
+  }
+
+  .avatar-section {
+    margin-bottom: 32px;
+  }
+}

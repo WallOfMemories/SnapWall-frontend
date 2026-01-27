@@ -1,12 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App.jsx";
 import Home from "../pages/Home.jsx";
-import Login from "../logs/Login.jsx";
-import Signup from "../logs/Signup.jsx";
-import ForgotPassword from "../logs/Forgot.jsx";
-import Success from "../logs/Success.jsx";
-import ProfileDetails from "../logs/ProfileDetails.jsx";
-import OtpVerify from "../logs/OtpVerify.jsx";  
+import Login from "../Authentication/Login.jsx";
+import Signup from "../Authentication/Signup.jsx";
+import ForgotPassword from "../Authentication/Forgot.jsx";
+import Success from "../Authentication/Success.jsx";
+import ProfileDetails from "../Authentication/ProfileDetails.jsx";
+import OtpVerify from "../Authentication/OtpVerify.jsx";  
 import Promotions from "../pages/Promotions.jsx";
 import Profile from "../pages/Profile.jsx";
 
