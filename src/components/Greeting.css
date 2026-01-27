@@ -1,0 +1,121 @@
+.greeting-container {
+  position: relative;
+  height: 220px;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 1s ease;
+}
+
+h1 {
+  position: relative;
+  z-index: 2;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+/* BACKGROUNDS */
+.morning {
+  background: linear-gradient(180deg, #ffecd2, #fcb69f);
+}
+
+.afternoon {
+  background: linear-gradient(180deg, #87ceeb, #ffffff);
+}
+
+.evening {
+  background: linear-gradient(180deg, #ff9a9e, #fad0c4);
+}
+
+.night {
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+}
+
+/* SUN */
+.sun {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, #fff176, #fbc02d);
+  border-radius: 50%;
+  top: 120%;
+  left: -10%;
+  animation: sunMove 12s linear infinite;
+}
+
+@keyframes sunMove {
+  0% {
+    top: 120%;
+    left: -10%;
+  }
+  50% {
+    top: 20%;
+    left: 45%;
+  }
+  100% {
+    top: 120%;
+    left: 110%;
+  }
+}
+
+/* MOON */
+.moon {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  background: #f5f3ce;
+  border-radius: 50%;
+  top: 30%;
+  left: -20%;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  animation: moonMove 20s linear infinite;
+}
+
+@keyframes moonMove {
+  from {
+    left: -20%;
+  }
+  to {
+    left: 110%;
+  }
+}
+
+/* STARS */
+.stars {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.stars span {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  opacity: 0.8;
+  animation: twinkle 3s infinite ease-in-out;
+}
+
+.stars span:nth-child(n) {
+  top: calc(100% * var(--y));
+  left: calc(100% * var(--x));
+}
+
+/* Random star placement */
+.stars span {
+  top: calc(100% * random());
+  left: calc(100% * random());
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
