@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import * as htmlToImage from "html-to-image";
-import Card from "./Card";
-import ShareMemoryModal from "./ShareMemoryModal";
+import Card from "./Card.jsx";
+import ShareMemoryModal from "./ShareMemoryModal.jsx";
 
 const MemoryPostWrapper = ({ memory }) => {
   const cardRef = useRef(null);

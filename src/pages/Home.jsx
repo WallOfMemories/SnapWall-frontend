@@ -7,8 +7,8 @@ import {
 } from "firebase/firestore";
 import { useOutletContext, useLocation } from "react-router-dom";
 import { db } from "../firebase";
-import Card from "../components/Card";
-import BottomSlider from "../components/BottomSlider";
+import Card from "../components/Card.jsx";
+import BottomSlider from "../components/BottomSlider.jsx";
 import "./Home.css";
 
 const MIN_ZOOM = 0.5;

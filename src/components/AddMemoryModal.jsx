@@ -13,7 +13,7 @@ import {
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import "./AddMemoryModal.css";
-import ShareMemoryModal from "./ShareMemoryModal";
+import ShareMemoryModal from "./ShareMemoryModal.jsx";
 
 const AddMemoryModal = ({ onClose }) => {
   const auth = getAuth();

@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Topbar from "./components/Topbar";
+import Topbar from "./components/Topbar.jsx";
 import "./App.css";
 
 const backgrounds = [

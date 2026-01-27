@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { auth, db, storage } from "../firebase";
-import EditMemoryModal from "../components/EditMemoryModal";
-import MemoryCard from "../components/MemoryCard";
+import EditMemoryModal from "../components/EditMemoryModal.jsx";
+import MemoryCard from "../components/MemoryCard.jsx";
 import { FaPencilAlt, FaInstagram } from "react-icons/fa";
-import EditProfileModal from "../components/EditProfileModal";
+import EditProfileModal from "../components/EditProfileModal.jsx";
 import {
   doc,
   getDoc,

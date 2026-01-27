@@ -5,7 +5,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import "./Topbar.css";
-import AddMemoryModal from "./AddMemoryModal";
+import AddMemoryModal from "./AddMemoryModal.jsx";
 
 const Topbar = ({ onSearch }) => {
   const navigate = useNavigate();
