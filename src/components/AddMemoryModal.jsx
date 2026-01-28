@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaCloudUploadAlt } from "react-icons/fa";
 import { Country, State, City } from "country-state-city";
 import { getAuth } from "firebase/auth";
 import { db, storage } from "../firebase";
