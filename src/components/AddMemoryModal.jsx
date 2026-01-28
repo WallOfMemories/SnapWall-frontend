@@ -131,7 +131,9 @@ setStep("share");
                 />
               ) : (
                 <>
-                  <div className="upload-icon">☁️</div>
+                  <div className="upload-icon">
+                    <FaCloudUploadAlt size={24} />
+                 </div>
                   <p>Upload the image</p>
                 </>
               )}
