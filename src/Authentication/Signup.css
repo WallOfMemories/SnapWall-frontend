@@ -12,6 +12,14 @@
   overflow: hidden;
 }
 
+.password-hint {
+  font-size: 12px;
+  color: #888;
+  margin-top: -6px;
+  margin-bottom: 12px;
+}
+
+
 /* Base image styles */
 .slide-image {
   position: absolute;

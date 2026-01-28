@@ -165,6 +165,9 @@ const Signup = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           disabled={loading}
         />
+          <p className="password-hint">
+            Min 7 chars, with uppercase, lowercase, number & special character.
+          </p>
 
         {error && <p className="error-text">{error}</p>}
 
