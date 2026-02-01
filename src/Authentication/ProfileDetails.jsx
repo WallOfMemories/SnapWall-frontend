@@ -35,7 +35,7 @@ const ProfileDetails = () => {
       setAnimate(true);
       setTimeout(() => {
         setIndex(nextIndex);
-        setNextIndex((nextIndex + 1) % images.length);
+        setNextIndex((prev) => (prev + 1) % images.length);
         setAnimate(false);
       }, 350);
     }, 6000);
@@ -43,18 +43,26 @@ const ProfileDetails = () => {
     return () => clearInterval(interval);
   }, [nextIndex]);
 
-    useEffect(() => {
-    const user = getAuth().currentUser;
-    if (!user) {
-      navigate("/signup");
-      return;
-    }
+  // ✅ CHECK LOGIN + EMAIL VERIFICATION PROPERLY
+  useEffect(() => {
+    const checkUser = async () => {
+      const auth = getAuth();
+      const user = auth.currentUser;
 
-    if (!user.emailVerified) {
-      navigate("/verify-email");
-    }
-  }, []);
+      if (!user) {
+        navigate("/signup");
+        return;
+      }
 
+      await user.reload(); // ⭐ refresh Firebase user
+
+      if (!user.emailVerified) {
+        navigate("/verify-email");
+      }
+    };
+
+    checkUser();
+  }, [navigate]);
 
   // IMAGE UPLOAD
   const handleImageUpload = (e) => {
@@ -75,14 +83,9 @@ const ProfileDetails = () => {
   const handleSave = async () => {
     setError("");
 
-    if (!imageFile)
-      return setError("Profile image is required");
-
-    if (!username.trim())
-      return setError("Username is required");
-
-    if (!instagram.trim())
-      return setError("Instagram ID is required");
+    if (!imageFile) return setError("Profile image is required");
+    if (!username.trim()) return setError("Username is required");
+    if (!instagram.trim()) return setError("Instagram ID is required");
 
     try {
       setLoading(true);
@@ -92,6 +95,14 @@ const ProfileDetails = () => {
 
       if (!user) {
         navigate("/signup");
+        return;
+      }
+
+      await user.reload(); // ⭐ double-check verification before save
+
+      if (!user.emailVerified) {
+        setError("Please verify your email before continuing");
+        setLoading(false);
         return;
       }
 
@@ -139,7 +150,6 @@ const ProfileDetails = () => {
 
   return (
     <div className="login-wrapper">
-      {/* LEFT IMAGE */}
       <div className="login-image">
         <img
           src={images[index]}
@@ -153,12 +163,9 @@ const ProfileDetails = () => {
         />
       </div>
 
-      {/* RIGHT FORM */}
       <div className="profile-wrapper">
         <h2 className="profile-title">Profile Details</h2>
-        <p className="profile-subtitle">
-          Enter your details to continue
-        </p>
+        <p className="profile-subtitle">Enter your details to continue</p>
 
         <div className="avatar-section">
           <div className="avatar-circle">

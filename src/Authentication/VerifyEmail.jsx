@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { auth } from "../firebase";
-import { sendEmailVerification } from "firebase/auth";
+import { getAuth, sendEmailVerification } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const VerifyEmail = () => {
@@ -8,12 +7,23 @@ const VerifyEmail = () => {
   const [checking, setChecking] = useState(false);
   const [message, setMessage] = useState("");
 
+  // 🔄 Auto-check when page loads
+  useEffect(() => {
+    checkVerification();
+  }, []);
+
+  // ✅ Function to check verification status
   const checkVerification = async () => {
+    const auth = getAuth();
     const user = auth.currentUser;
-    if (!user) return;
+
+    if (!user) {
+      navigate("/signup");
+      return;
+    }
 
     setChecking(true);
-    await user.reload(); // refresh user data
+    await user.reload(); // ⭐ refresh from Firebase
 
     if (user.emailVerified) {
       navigate("/profile-details");
@@ -24,12 +34,15 @@ const VerifyEmail = () => {
     setChecking(false);
   };
 
+  // 📩 Resend verification email
   const resendEmail = async () => {
+    const auth = getAuth();
     const user = auth.currentUser;
+
     if (!user) return;
 
     await sendEmailVerification(user);
-    setMessage("Verification email sent again");
+    setMessage("Verification email sent again. Check spam if not in inbox.");
   };
 
   return (
@@ -38,7 +51,7 @@ const VerifyEmail = () => {
       <p>Please check your inbox and click the verification link.</p>
 
       <button onClick={checkVerification} disabled={checking}>
-        I have verified
+        {checking ? "Checking..." : "I have verified"}
       </button>
 
       <br /><br />
