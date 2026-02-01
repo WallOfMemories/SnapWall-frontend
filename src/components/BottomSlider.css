@@ -18,21 +18,21 @@
 /* Slide */
 .slide {
   min-width: 100vw;
-  height: 120px;
+  height: 80px;
 }
 
 /* Images */
 .slide img,
 .mobile-only img {
   width: 100%;
-  height: 120px;
+  height: 80px;
   object-fit: cover;
 }
 
 /* Ads */
 .ad-container {
   width: 100%;
-  height: 120px;
+  height: 80px;
   overflow: hidden;
 }
 

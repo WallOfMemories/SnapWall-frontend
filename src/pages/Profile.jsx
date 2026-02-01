@@ -18,6 +18,7 @@ import { ref, deleteObject } from "firebase/storage";
 import { signOut } from "firebase/auth";
 import "./Profile.css";
 import GoogleAd from "../components/GoogleAd";
+import Footer from "../components/Footer.jsx";
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -109,7 +110,7 @@ useEffect(() => {
   if (!userData) return <div>No user data found</div>;
 
   return (
-    <div className="profile-page">
+    <><div className="profile-page">
       <div className="ad-banner">
         <GoogleAd slot="1234567890" />
       </div>
@@ -120,20 +121,19 @@ useEffect(() => {
         <div className="profile-left">
           <img src={userData.imageUrl} className="profile-avatar" />
           <div className="profile-text">
-  <div className="username-row">
-    <h2>{userData.username}</h2>
-    <FaPencilAlt
-      className="edit-icon"
-      onClick={() => setShowEditProfile(true)}
-      title="Edit Profile"
-    />
-  </div>
-  <div className="instagram-chip">
-  <FaInstagram className="instagram-icon" />
-  @{userData.instagram}
-</div>
+            <div className="username-row">
+              <h2>{userData.username}</h2>
+              <FaPencilAlt
+                className="edit-icon"
+                onClick={() => setShowEditProfile(true)}
+                title="Edit Profile" />
+            </div>
+            <div className="instagram-chip">
+              <FaInstagram className="instagram-icon" />
+              @{userData.instagram}
+            </div>
 
-</div>
+          </div>
 
         </div>
 
@@ -146,30 +146,27 @@ useEffect(() => {
 
       {/* MEMORIES */}
       <div className="profile-posts">
-  {memories.map(memory => (
-    <MemoryCard
-      key={memory.id}
-      memory={memory}
-      onEdit={setEditMemory}
-      onDelete={handleDelete}
-    />
-  ))}
-</div>
-{editMemory && (
-  <EditMemoryModal
-    memory={editMemory}
-    onClose={() => setEditMemory(null)}
-    onSave={handleMemoryUpdate}
-  />
-)}
-{showEditProfile && (
-  <EditProfileModal
-    user={userData}
-    onClose={() => setShowEditProfile(false)}
-    onUpdate={(updatedUser) => setUserData(updatedUser)}
-  />
-)}
-    </div>
+        {memories.map(memory => (
+          <MemoryCard
+            key={memory.id}
+            memory={memory}
+            onEdit={setEditMemory}
+            onDelete={handleDelete} />
+        ))}
+      </div>
+      {editMemory && (
+        <EditMemoryModal
+          memory={editMemory}
+          onClose={() => setEditMemory(null)}
+          onSave={handleMemoryUpdate} />
+      )}
+      {showEditProfile && (
+        <EditProfileModal
+          user={userData}
+          onClose={() => setShowEditProfile(false)}
+          onUpdate={(updatedUser) => setUserData(updatedUser)} />
+      )}
+    </div><Footer /></>
   );
 };
 

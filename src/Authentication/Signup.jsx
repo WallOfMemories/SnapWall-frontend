@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { auth } from "../firebase";
+
 
 import img1 from "../assets/image-1.png";
 import img2 from "../assets/image-2.png";
@@ -49,7 +52,6 @@ const Signup = () => {
 
   const handleSignup = async () => {
     if (loading) return;
-
     setError("");
 
     if (!email || !password || !confirmPassword) {
@@ -63,9 +65,7 @@ const Signup = () => {
     }
 
     if (!validatePassword(password)) {
-      setError(
-        "Password must include uppercase, lowercase, number & special character"
-      );
+      setError("Password must include uppercase, lowercase, number & special character");
       return;
     }
 
@@ -77,26 +77,21 @@ const Signup = () => {
     try {
       setLoading(true);
 
-      const res = await fetch("https://snap-wall-backend.vercel.app/api/otp/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+      const userCred = await createUserWithEmailAndPassword(auth, email, password);
 
-      if (!res.ok) throw new Error("OTP send failed");
+      // 🔥 Send Firebase verification email
+      await sendEmailVerification(userCred.user);
 
-      // Store temporarily for OTP step
-      localStorage.setItem("signupEmail", email.toLowerCase());
-      localStorage.setItem("signupPassword", password);
+      // Go to verify screen
+      navigate("/verify-email");
 
-      navigate("/otp-verify");
     } catch (err) {
-      console.error(err);
-      setError("Failed to send OTP. Please try again.");
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
+
 
   const isFormValid =
     email &&
@@ -176,7 +171,7 @@ const Signup = () => {
           onClick={handleSignup}
           disabled={!isFormValid || loading}
         >
-          {loading ? "Sending OTP..." : "Send OTP"}
+          {loading ? "Sending Verification Email..." : "Verify Email"}
         </button>
 
         <p className="signup-text">

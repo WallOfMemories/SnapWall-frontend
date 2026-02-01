@@ -43,6 +43,19 @@ const ProfileDetails = () => {
     return () => clearInterval(interval);
   }, [nextIndex]);
 
+    useEffect(() => {
+    const user = getAuth().currentUser;
+    if (!user) {
+      navigate("/signup");
+      return;
+    }
+
+    if (!user.emailVerified) {
+      navigate("/verify-email");
+    }
+  }, []);
+
+
   // IMAGE UPLOAD
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -165,7 +178,7 @@ const ProfileDetails = () => {
 
         <input
           type="text"
-          placeholder="Enter username *"
+          placeholder="Create SnapWall Username *"
           className="input-box"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -173,7 +186,7 @@ const ProfileDetails = () => {
 
         <input
           type="text"
-          placeholder="Enter Instagram id *"
+          placeholder="Enter Instagram Id *"
           className="input-box"
           value={instagram}
           onChange={(e) => setInstagram(e.target.value)}

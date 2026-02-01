@@ -68,7 +68,7 @@ const EditProfileModal = ({ user, onClose, onUpdate }) => {
 
         <div className="avatar-section">
           <img src={preview} alt="preview" />
-          <label className="upload-btn">
+          <label className="upload-btn-1">
             Change Photo
             <input type="file" accept="image/*" hidden onChange={handleImageChange} />
           </label>

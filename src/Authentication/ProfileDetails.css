@@ -56,7 +56,7 @@
 
 /* Avatar Placeholder */
 .avatar-circle span {
-  font-size: clamp(28px, 8vw, 36px);
+  font-size: clamp(28px, 8vw, 28px);
   color: #9ca3af;
 }
 
@@ -66,8 +66,8 @@
   border-radius: 14px;
   font-weight: 600;
   cursor: pointer;
+  color: #fff;
   background:
-    linear-gradient(white, white) padding-box,
     linear-gradient(90deg, #A821EB, #34B8FF) border-box;
   border: 2px solid transparent;
   font-size: 14px;

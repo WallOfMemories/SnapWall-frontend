@@ -1,7 +1,7 @@
 .memory-overlay { 
     position: fixed; 
     inset: 0; 
-    background: rgba(0, 0, 0, 0.55); 
+    background: rgba(0, 0, 0, 0.8); 
     display: flex; 
     align-items: center; 
     justify-content: center; 
@@ -14,8 +14,10 @@
     width: 100%; 
     max-width: 380px; 
     margin-top: 100px; /* desktop size */ 
-    background: #ffffff; 
-    border-radius: 22px; 
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(8px);
+    border-radius: 24px; 
+    border: 1px solid #eae4e4;
     padding: 24px 22px; 
     position: relative; 
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25); 
@@ -28,10 +30,11 @@
 /* Close icon */ 
 .close-icon { 
     position: absolute; 
-    top: 16px; 
-    right: 16px; 
+    top: 30px; 
+    right: 24px; 
     cursor: pointer; 
     opacity: 0.6; 
+    color: #ffffff;
 } 
 
 .memory-modal-ui h2 { 
@@ -39,12 +42,13 @@
     margin-bottom: 18px; 
     font-size: 18px; 
     font-weight: 600; 
+    color: #ffffff;
 } /* Upload box */ 
 
 .upload-box { 
     height: 130px; 
     border-radius: 16px; 
-    background: linear-gradient(135deg, #f3e8ff, #e0f2fe); 
+    background: linear-gradient(90deg, #A821EB, #34B8FF);
     display: flex; 
     flex-direction: column; 
     align-items: center; 
@@ -53,14 +57,35 @@
     margin-bottom: 16px; 
 } 
 
-.upload-icon { 
-    font-size: 32px; 
-    margin-bottom: 8px; 
-} 
+.upload-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.upload-icon svg {
+    font-size: 28px;
+    color: #ffffff;
+}
+
 
 .upload-box p { 
+    margin-top: 8px;
     font-size: 14px; 
     font-weight: 500; 
+    color: #ffffff;
 } /* Post button */ 
 
 .post-btn { 
@@ -71,7 +96,7 @@
     border: none; 
     font-size: 15px; 
     font-weight: 600; 
-    color: #fff; 
+    color: #ffffff; 
     cursor: pointer; 
     background: linear-gradient(90deg, #4facfe, #8e2de2); 
 } 
@@ -80,26 +105,65 @@
     cursor: not-allowed; 
 } 
 
+.post-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(122, 122, 255, 0.35);
+}
+
 .gradient-input { 
     width: 100%; 
     padding: 12px 14px; 
     border-radius: 12px; 
     margin-bottom: 12px; 
     font-size: 14px; 
+    color: #ffffff;
     outline: none; 
-    border: 2px solid transparent; 
-    background: linear-gradient(#fff, #fff) padding-box, linear-gradient(90deg, #8e2de2, #4facfe) border-box; 
+    border: 2px solid #ffffff; 
+    background: transparent;
     appearance: none; 
     -webkit-appearance: none; 
     -moz-appearance: none; 
 } 
+
+.gradient-input::placeholder {
+  color: #ffffff;
+}
 /* subtle dropdown arrow */ 
-select.gradient-input { 
-    background-image: linear-gradient(#fff, #fff), linear-gradient(90deg, #8e2de2, #4facfe), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'%3E%3Cpath fill='%23999' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); 
-    background-repeat: no-repeat; 
-    background-position: 0 0, 0 0, right 12px center; 
-    padding-right: 36px; 
-} 
+/* GLASS SELECT FIELD */
+select.gradient-input {
+    width: 100%;
+    padding: 12px 40px 12px 14px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #ffffff;
+
+    border: 1.5px solid #ffffff;
+
+
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    /* custom arrow */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 14px;
+}
+
+/* Dropdown list items */
+select.gradient-input option {
+    background-color: #1a1a1a;  /* dark glass fallback */
+    color: #ffffff;
+}
+
+select.gradient-input:focus {
+    box-shadow: 0 0 0 3px rgba(142,45,226,0.25);
+}
+
+
 /* Bigger caption box */ 
 .caption-box { 
     min-height: 90px; 

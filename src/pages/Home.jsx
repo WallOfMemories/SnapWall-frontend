@@ -41,22 +41,21 @@ const Home = () => {
     return () => unsubscribe();
   }, []);
 
-  /* 🔍 SEARCH */
-const params = new URLSearchParams(location.search);
-const highlightId = params.get("memory");
+  /* 🔍 SEARCH + HIGHLIGHT */
+  const params = new URLSearchParams(location.search);
+  const highlightId = params.get("memory");
 
-const q = searchQuery.trim().toLowerCase();
+  const q = searchQuery.trim().toLowerCase();
 
-const processed = memories.map(m => ({
-  ...m,
-  isHighlighted:
-    m.id === highlightId ||
-    (q &&
-      (m.username?.toLowerCase().includes(q) ||
-        m.city?.toLowerCase().includes(q) ||
-        m.country?.toLowerCase().includes(q)))
-}));
-
+  const processed = memories.map(m => ({
+    ...m,
+    isHighlighted:
+      m.id === highlightId ||
+      (q &&
+        (m.username?.toLowerCase().includes(q) ||
+          m.city?.toLowerCase().includes(q) ||
+          m.country?.toLowerCase().includes(q)))
+  }));
 
   /* 🧠 FIGMA-LIKE ZOOM */
   useEffect(() => {

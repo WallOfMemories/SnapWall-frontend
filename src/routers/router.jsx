@@ -9,6 +9,7 @@ import ProfileDetails from "../Authentication/ProfileDetails.jsx";
 import OtpVerify from "../Authentication/OtpVerify.jsx";  
 import Promotions from "../pages/Promotions.jsx";
 import Profile from "../pages/Profile.jsx";
+import VerifyEmail from "../Authentication/VerifyEmail.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,8 +29,8 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path: "otp-verify",
-        element: <OtpVerify />,
+        path: "verify-email",
+        element: <VerifyEmail />,
       },
       {
         path: "forgot",

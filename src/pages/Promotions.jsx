@@ -19,46 +19,44 @@ const Promotions = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
 
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
+    e.preventDefault();
+    setLoading(true);
 
-  try {
-    await addDoc(collection(db, "promotions"), {
-      ...formData,
-      createdAt: serverTimestamp(),
-    });
+    try {
+      await addDoc(collection(db, "promotions"), {
+        ...formData,
+        createdAt: serverTimestamp(),
+      });
 
-    setShowSuccess(true);
-    setShowError(false);
+      setShowSuccess(true);
+      setShowError(false);
 
-    setFormData({
-      fullName: "",
-      email: "",
-      contact: "",
-      address: "",
-      message: "",
-    });
-  } catch (error) {
-    console.error(error);
-    setShowError(true);
-    setShowSuccess(false);
-  }
+      setFormData({
+        fullName: "",
+        email: "",
+        contact: "",
+        address: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error(error);
+      setShowError(true);
+      setShowSuccess(false);
+    }
 
-  setLoading(false);
-};
-
+    setLoading(false);
+  };
 
   return (
     <div className="promo-page">
       <div className="promo-card">
-        <h1>Promote Your Product</h1>
-        <p>Fill the form below to advertise your product</p>
+        <h1>Promotions</h1>
+        <p>Fill the form below to promote your brand</p>
 
         <form onSubmit={handleSubmit}>
           <input name="fullName" placeholder="Full Name" value={formData.fullName} onChange={handleChange} required />
@@ -73,25 +71,18 @@ const Promotions = () => {
         </form>
       </div>
 
-      {/* ✅ SUCCESS MODAL */}
       {showSuccess && (
         <div className="success-overlay">
           <div className="success-modal">
-            <div className="success-icon">
-              ✓
-            </div>
-            <h2>Advertising Submitted Successfully</h2>
-
-            <button
-              className="home-btn"
-              onClick={() => navigate("/")}
-            >
+            <div className="success-icon">✓</div>
+            <h2>Promotion Submitted Successfully</h2>
+            <button className="home-btn" onClick={() => navigate("/")}>
               Home
             </button>
           </div>
         </div>
       )}
-      {/* ❌ FAILURE MODAL */}
+
       {showError && (
         <div className="success-overlay">
           <div className="success-modal error-modal">
@@ -100,11 +91,7 @@ const Promotions = () => {
             <p className="error-text">
               Something went wrong. Please try again.
             </p>
-
-            <button
-              className="home-btn error-btn"
-              onClick={() => setShowError(false)}
-            >
+            <button className="home-btn error-btn" onClick={() => setShowError(false)}>
               Try Again
             </button>
           </div>

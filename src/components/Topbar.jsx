@@ -44,6 +44,7 @@ const Topbar = ({ onSearch }) => {
 
           {/* DESKTOP SEARCH */}
           <div className="topbar-center">
+            <FaSearch />
             <input
               value={searchText}
               placeholder="Search by username, city or country..."

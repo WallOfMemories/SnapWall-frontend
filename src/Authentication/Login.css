@@ -2,7 +2,8 @@
   display: flex;
   height: 100vh;
   width: 100%;
-  background: white;
+  background: rgba(255, 255, 255, 0.01);
+
 }
 
 /* LEFT IMAGE */
@@ -66,7 +67,7 @@
 
 /* HERO */
 .hero-title {
-  font-size: 46px;
+  font-size: 54px;
   font-weight: 800;
   margin-bottom: 18px;
 
@@ -101,7 +102,7 @@
 
 
 .hero-subtitle {
-  color: #b8b8b8;
+  color: #eae4e4;
   font-size: 16px;
   margin-bottom: 30px;
   line-height: 1.6;
@@ -112,10 +113,11 @@
   font-size: 28px;
   font-weight: 600;
   margin-bottom: 8px;
+  color: #b625ff;
 }
 
 .login-desc {
-  color: gray;
+  color: #eae4e4;
   margin-bottom: 28px;
 }
 
@@ -125,12 +127,15 @@
   padding: 14px 18px;
   margin-bottom: 18px;
   border-radius: 14px;
-  border: 2px solid transparent;
+  border: 2px solid #ffffff;
+  color: #ffffff;
   outline: none;
   font-size: 15px;
-  background:
-    linear-gradient(white, white) padding-box,
-    linear-gradient(90deg, #A821EB, #34B8FF) border-box;
+  background: transparent;
+}
+
+.input-box::placeholder {
+  color: #ffffff;
 }
 
 /* FORGOT */
@@ -138,7 +143,7 @@
   width: 54%;
   text-align: right;
   font-size: 14px;
-  color: #A821EB;
+  color: #b625ff;
   cursor: pointer;
   margin-bottom: 28px;
 }
@@ -167,11 +172,11 @@
 .signup-text {
   width: 65%;
   text-align: center;
-  color: gray;
+  color: #ffffff;
 }
 
 .signup-text span {
-  color: #A821EB;
+  color: #b625ff;
   font-weight: 600;
   cursor: pointer;
 }
@@ -308,7 +313,7 @@
 /* Extra Small Devices (≤360px) */
 @media (max-width: 360px) {
   .hero-title {
-    font-size: 24px;
+    font-size: 32px;
   }
 
   .login-form {

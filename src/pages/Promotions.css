@@ -1,18 +1,21 @@
-
+/* PAGE */
 .promo-page {
   width: 100%;
+  min-height: 100vh;
+
   display: flex;
   justify-content: center;
   align-items: flex-start;
 
-  background: linear-gradient(#f196dc, #a6cfdf);
+  background: transparent; /* 👈 SHOW VIDEO */
+  padding: 120px 16px 80px;
 
-  padding: 40px 16px 80px; /* bottom space for submit button */
   box-sizing: border-box;
-
   overflow-y: auto;
-}
 
+  position: relative;
+  z-index: 1;
+}
 
 /* FORM CARD */
 .promo-card {
@@ -20,13 +23,13 @@
   max-width: 520px;
 
   padding: 36px 32px;
-  margin-bottom: 60px; /* 🔑 ensures submit never touches bottom */
+  margin-bottom: 60px;
 
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(8px);
 
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid #eae4e4;
 
   box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.15),
@@ -37,13 +40,14 @@
 .promo-card h1 {
   font-size: 28px;
   font-weight: 600;
+  color: #ffffff;
   margin-bottom: 6px;
   text-align: center;
 }
 
 .promo-card p {
   font-size: 14px;
-  color: #666;
+  color: #eae4e4;
   margin-bottom: 28px;
   text-align: center;
 }
@@ -59,16 +63,18 @@
 .promo-card textarea {
   padding: 12px 14px;
   border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid #eae4e4;
   font-size: 14px;
   resize: none;
   outline: none;
   background: transparent;
+  color: #ffffff;
 }
 
-.promo-card input:focus,
-.promo-card textarea:focus {
-  border-color: #7a7aff;
+/* WHITE PLACEHOLDER TEXT */
+.promo-card input::placeholder,
+.promo-card textarea::placeholder {
+  color: #ffffff;
 }
 
 /* BUTTON */
@@ -81,7 +87,6 @@
   font-weight: 500;
   color: #fff;
   cursor: pointer;
-
   background: linear-gradient(90deg, #A821EB, #34B8FF);
   transition: all 0.25s ease;
 }
@@ -89,17 +94,6 @@
 .promo-card button:hover {
   transform: translateY(-1px);
   box-shadow: 0 8px 22px rgba(122, 122, 255, 0.35);
-}
-
-.promo-card button:active {
-  transform: scale(0.96);
-}
-
-/* RESPONSIVE */
-@media (max-width: 480px) {
-  .promo-card {
-    padding: 30px 22px;
-  }
 }
 
 /* OVERLAY */
@@ -114,52 +108,63 @@
   z-index: 1000;
 }
 
-/* MODAL CARD */
+/* MODAL */
 .success-modal {
-  width: 420px;
-  background: #fff;
+  width: 92%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(8px);
   border-radius: 28px;
-  padding: 40px 30px;
+  padding: 32px 22px;
+  border: 1px solid #eae4e4;
   text-align: center;
+  color: #ffffff;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   animation: scaleIn 0.35s ease;
 }
 
-/* CHECK ICON */
 .success-icon {
-  width: 110px;
-  height: 110px;
+  width: 90px;
+  height: 90px;
   margin: 0 auto 20px;
   border-radius: 50%;
   background: linear-gradient(135deg, #3aa0ff, #9b3bff);
   color: white;
-  font-size: 48px;
+  font-size: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* TEXT */
-.success-modal h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 30px;
-}
-
-/* HOME BUTTON */
 .home-btn {
   width: 100%;
-  height: 44px;
+  margin-top: 15px;
+  height: 42px;
   border-radius: 14px;
   border: none;
   background: linear-gradient(135deg, #3aa0ff, #9b3bff);
   color: white;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 14px;
   cursor: pointer;
 }
-
 .home-btn:hover {
-  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(122, 122, 255, 0.35);
+}
+
+/* ERROR VARIANT */
+.error-modal {
+  border: 1px solid rgba(255, 0, 0, 0.2);
+}
+
+.error-icon {
+  background: linear-gradient(135deg, #ff4d4d, #ff1f6d);
+}
+
+.error-btn {
+  background: linear-gradient(135deg, #ff4d4d, #ff1f6d);
 }
 
 /* ANIMATION */
@@ -172,141 +177,4 @@
     opacity: 1;
     transform: scale(1);
   }
-}
-
-/* ===== GLOBAL RESPONSIVE FIXES ===== */
-* {
-  box-sizing: border-box;
-}
-
-/* PAGE PADDING ADJUSTMENT */
-.promo-page {
-  padding: 120px 16px 30px;
-}
-
-/* CARD WIDTH RESPONSIVE */
-.promo-card {
-  width: 100%;
-  max-width: 520px;
-}
-
-/* INPUTS FULL WIDTH */
-.promo-card input,
-.promo-card textarea,
-.promo-card button {
-  width: 100%;
-}
-
-/* ===== TABLET SCREENS ===== */
-@media (max-width: 768px) {
-  .promo-page {
-    padding: 110px 20px 30px;
-  }
-
-  .promo-card {
-    padding: 32px 26px;
-    border-radius: 22px;
-  }
-
-  .promo-card h1 {
-    font-size: 26px;
-  }
-}
-
-@media (max-height: 600px) {
-  .promo-page {
-    padding-top: 80px;
-  }
-}
-
-
-/* ===== MOBILE SCREENS ===== */
-@media (max-width: 480px) {
-  .promo-page {
-    padding: 90px 14px 24px;
-  }
-
-  .promo-card {
-    padding: 26px 20px;
-    border-radius: 20px;
-  }
-
-  .promo-card h1 {
-    font-size: 22px;
-  }
-
-  .promo-card p {
-    font-size: 13px;
-    margin-bottom: 20px;
-  }
-
-  .promo-card input,
-  .promo-card textarea {
-    font-size: 13px;
-    padding: 10px 12px;
-  }
-
-  .promo-card button {
-    height: 40px;
-    font-size: 14px;
-  }
-}
-
-/* ===== SMALL HEIGHT DEVICES ===== */
-@media (max-height: 600px) {
-  .promo-page {
-    align-items: flex-start;
-  }
-
-  .promo-card {
-    margin-top: 40px;
-  }
-}
-
-/* ===== SUCCESS MODAL RESPONSIVE ===== */
-.success-modal {
-  width: 92%;
-  max-width: 420px;
-  padding: 32px 22px;
-}
-
-.success-icon {
-  width: 90px;
-  height: 90px;
-  font-size: 40px;
-}
-
-.success-modal h2 {
-  font-size: 18px;
-}
-
-/* BUTTON TOUCH FRIENDLY */
-.home-btn {
-  height: 42px;
-  font-size: 14px;
-}
-
-
-/* ===== ERROR MODAL VARIANT ===== */
-.error-modal {
-  border: 1px solid rgba(255, 0, 0, 0.2);
-}
-
-.error-icon {
-  background: linear-gradient(135deg, #ff4d4d, #ff1f6d);
-}
-
-.error-text {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 26px;
-}
-
-/* ERROR BUTTON */
-.error-btn {
-  background: linear-gradient(135deg, #ff4d4d, #ff1f6d);
-}
-
-.error-btn:hover {
-  opacity: 0.95;
 }

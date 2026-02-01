@@ -1,7 +1,10 @@
 .profile-page {
   padding: 120px 40px 20px 40px;
-  background: #fff;
+  background: transparent; /* 👈 SHOW VIDEO */
   min-height: 100vh;
+
+  position: relative;
+  z-index: 1;
 }
 
 /* AD */
@@ -14,12 +17,12 @@
   justify-content: center;
 }
 
-
 /* TITLE */
 .profile-title {
   font-size: 28px;
   font-weight: 600;
   margin-bottom: 16px;
+  color: #ffffff;
 }
 
 /* HEADER */
@@ -29,6 +32,7 @@
   align-items: center;
 }
 
+/* LEFT */
 .profile-left {
   display: flex;
   align-items: center;
@@ -41,12 +45,15 @@
   height: 90px;
   border-radius: 50%;
   object-fit: cover;
-  border: linear-gradient(90deg, #a855f7, #3b82f6) 2px solid;
+  border: 3px solid transparent;
+  background:
+    linear-gradient(90deg, #a855f7, #3b82f6) border-box;
 }
 
 /* TEXT */
 .profile-text h2 {
   font-size: 26px;
+  color: #ffffff;
   margin: 0;
 }
 
@@ -59,8 +66,10 @@
 .edit-icon {
   font-size: 14px;
   cursor: pointer;
+  color: #ffffff;
 }
 
+/* INSTAGRAM */
 .instagram-chip {
   display: inline-flex;
   align-items: center;
@@ -71,7 +80,10 @@
   font-size: 16px;
   font-weight: 500;
   margin-top: 6px;
+}
 
+.instagram-chip:hover {
+  box-shadow: 0 8px 22px rgba(122, 122, 255, 0.35);
 }
 
 .instagram-icon {
@@ -90,25 +102,36 @@
   font-size: 14px;
   cursor: pointer;
 }
+.logout-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(122, 122, 255, 0.35);
+}
 
 /* DIVIDER */
 .divider {
   margin: 20px 0;
   border: none;
-  border-top: 2px solid #ddd;
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
 }
 
-/* POSTS */
+/* POSTS GRID */
+.profile-posts {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 22px;
+}
 
+/* POST CARD */
 .post-card {
-  width: 100%;      /* ✅ FULL width of grid column */
+  width: 100%;
   height: 100%;
-  background: #f5f5f5;
-  border-radius: 10px;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
 }
 
 .post-card.real {
-  background: #fff;
+  background: rgba(255,255,255,0.85);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 10px 20px rgba(0,0,0,0.08);
@@ -129,7 +152,7 @@
 
 .location {
   font-size: 12px;
-  color: #666;
+  color: #555;
   padding: 0 12px;
 }
 
@@ -147,18 +170,13 @@
   color: #2563eb;
 }
 
-.profile-posts {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 22px;
-}
-
-/* Tablet */
+/* TABLET */
 @media (max-width: 1024px) {
   .profile-posts {
     grid-template-columns: repeat(2, 1fr);
   }
-   .profile-page {
+
+  .profile-page {
     padding: 110px 24px 20px 24px;
   }
 
@@ -181,20 +199,21 @@
 
   .logout-btn {
     width: 30%;
-    font-size: 14px;
   }
 }
 
-/* Mobile */
+/* MOBILE */
 @media (max-width: 600px) {
   .profile-posts {
     grid-template-columns: 1fr;
-    justify-items: center; /* ✅ centers card horizontally */
+    justify-items: center;
   }
+
   .post-card {
-    max-width: 320px; /* ✅ optional: keeps card neat */
+    max-width: 320px;
   }
-    .profile-page {
+
+  .profile-page {
     padding: 90px 16px 16px 16px;
   }
 
@@ -219,27 +238,11 @@
     font-size: 20px;
   }
 
-  .username-row {
-    gap: 8px;
-  }
-
-  .edit-icon {
-    font-size: 13px;
-  }
-
-  .instagram-chip {
-    font-size: 14px;
-    padding: 5px 8px;
-  }
-
   .logout-btn {
     width: 100%;
-    font-size: 14px;
-    padding: 10px;
   }
 
   .profile-title {
     font-size: 22px;
   }
 }
-
