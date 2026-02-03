@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import "./BottomSlider.css";
-import bannar from "../assets/bannar.png";
+import bannar from "../assets/bannar.jpg";
 
 const SLIDE_DURATION = 20000;
 
 const slides = [
-  { type: "ad", adSlot: "1234567890" },
-  { type: "image", src: bannar },
-  { type: "ad", adSlot: "2345678901" },
-  { type: "image", src: bannar },
-  { type: "ad", adSlot: "3456789012" }
+  { type: "ad" },
+  { type: "image", src: bannar, link: "https://yourbrand.com" },
+  { type: "ad" },
+  { type: "image", src: bannar, link: "https://offerpage.com" },
+  { type: "ad" }
 ];
 
 const BottomSlider = () => {
@@ -20,56 +20,35 @@ const BottomSlider = () => {
   const startX = useRef(0);
   const pausedRef = useRef(false);
 
-  /* Detect screen size */
+  // Detect mobile
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
-
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  /* Auto slide (DESKTOP ONLY) */
+  // Auto slide (desktop)
   useEffect(() => {
     if (isMobile) return;
-
     intervalRef.current = setInterval(() => {
       if (!pausedRef.current) {
         setIndex(prev => (prev + 1) % slides.length);
       }
     }, SLIDE_DURATION);
-
     return () => clearInterval(intervalRef.current);
   }, [isMobile]);
 
-  /* Load Google Ads only on desktop */
+  // Push ads when slide changes
   useEffect(() => {
-    if (isMobile) return;
+    if (slides[index].type === "ad") {
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {}
+    }
+  }, [index]);
 
-    try {
-      if (window.adsbygoogle) {
-        window.adsbygoogle.push({});
-      }
-    } catch (e) {}
-  }, [index, isMobile]);
-
-  /* =====================
-     MOBILE → ONLY BANNER
-  ====================== */
-  if (isMobile) {
-    return (
-      <div className="bottom-slider mobile-only">
-        <img src={bannar} alt="banner" />
-      </div>
-    );
-  }
-
-  /* =====================
-     DESKTOP → FULL SLIDER
-  ====================== */
+  // MOBILE → show slider too (not just banner)
   return (
     <div
       className="bottom-slider"
@@ -79,8 +58,7 @@ const BottomSlider = () => {
       onTouchEnd={e => {
         const diff = startX.current - e.changedTouches[0].clientX;
         if (diff > 50) setIndex(i => (i + 1) % slides.length);
-        if (diff < -50)
-          setIndex(i => (i - 1 + slides.length) % slides.length);
+        if (diff < -50) setIndex(i => (i - 1 + slides.length) % slides.length);
       }}
     >
       <div
@@ -90,16 +68,23 @@ const BottomSlider = () => {
         {slides.map((slide, i) => (
           <div className="slide" key={i}>
             {slide.type === "image" ? (
-              <img src={slide.src} alt={`slide-${i}`} />
+              <a
+                href={slide.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="banner-link"
+              >
+                <img src={slide.src} alt={`slide-${i}`} />
+              </a>
             ) : (
               <div className="ad-container">
                 <ins
                   className="adsbygoogle"
-                  style={{ display: "block", height: "100px" }}
-                  data-ad-client="ca-pub-2799227154500169"
-                  data-ad-slot={slide.adSlot}
-                  data-ad-format="horizontal"
-                  data-full-width-responsive="true"
+                  style={{ display: "block" }}
+                  data-ad-format="fluid"
+                  data-ad-layout-key="-fl+4t-1g-6t+hi"
+                  data-ad-client="ca-pub-6632739105153503"
+                  data-ad-slot="5786031640"
                 />
               </div>
             )}

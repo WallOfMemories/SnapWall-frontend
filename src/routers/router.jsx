@@ -6,7 +6,6 @@ import Signup from "../Authentication/Signup.jsx";
 import ForgotPassword from "../Authentication/Forgot.jsx";
 import Success from "../Authentication/Success.jsx";
 import ProfileDetails from "../Authentication/ProfileDetails.jsx";
-import OtpVerify from "../Authentication/OtpVerify.jsx";  
 import Promotions from "../pages/Promotions.jsx";
 import Profile from "../pages/Profile.jsx";
 import VerifyEmail from "../Authentication/VerifyEmail.jsx";

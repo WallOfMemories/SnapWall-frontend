@@ -8,7 +8,7 @@ const Footer = () => {
           Snapwall where moments live forever
         </h1>
         <p className="footer-subtitle">
-            Designed and Developed{" "}
+            Designed and Developed By{" "}
         <a
             href="https://www.instagram.com/uicoderz"
             target="_blank"
@@ -23,9 +23,9 @@ const Footer = () => {
       <div className="footer-bottom">
         <span>© 2026. All rights reserved</span>
         <div className="footer-links">
-          <a href="/feedback">Feedback</a>
-          <a href="/terms">Terms & Conditions</a>
-          <a href="/privacy">Privacy Policy</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLScqXx6YhmnUGhP0CqLhDGGLczezziK2x8QzIYKcFEkz1QuL9A/viewform?usp=publish-editor" target="_blank">Feedback</a>
+          <a href="/terms-and-conditions">Terms & Conditions</a>
+          <a href="/privacy-policy">Privacy Policy</a>
         </div>
       </div>
     </footer>

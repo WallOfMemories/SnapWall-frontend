@@ -60,12 +60,11 @@ const Success = () => {
           <h2 className="success-title">Profile Created Successfully</h2>
 
           <button
-  className="success-btn"
-  onClick={() => navigate("/login")}
->
-  Explore now
-</button>
-
+            className="success-btn"
+            onClick={() => navigate("/")}
+          >
+            Explore now
+          </button>
         </div>
       </div>
     </div>

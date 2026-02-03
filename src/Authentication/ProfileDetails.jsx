@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ProfileDetails.css";
 import { getAuth } from "firebase/auth";
-
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase";
+import toast from "react-hot-toast";
 
 import img1 from "../assets/image-1.png";
 import img2 from "../assets/image-2.png";
@@ -21,8 +21,7 @@ const ProfileDetails = () => {
   const [instagram, setInstagram] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [preview, setPreview] = useState(null);
-
-  const [error, setError] = useState("");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // slider
@@ -44,25 +43,30 @@ const ProfileDetails = () => {
   }, [nextIndex]);
 
   // ✅ CHECK LOGIN + EMAIL VERIFICATION PROPERLY
-  useEffect(() => {
-    const checkUser = async () => {
-      const auth = getAuth();
-      const user = auth.currentUser;
+useEffect(() => {
+  const checkUser = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
 
-      if (!user) {
-        navigate("/signup");
-        return;
-      }
+    if (!user) {
+      navigate("/signup");
+      return;
+    }
 
-      await user.reload(); // ⭐ refresh Firebase user
+    await user.reload(); // refresh user
+    const token = await user.getIdToken(true); // 🔑 force refresh
 
-      if (!user.emailVerified) {
-        navigate("/verify-email");
-      }
-    };
+    if (!user.emailVerified) {
+      navigate("/verify-email");
+      return;
+    }
 
-    checkUser();
-  }, [navigate]);
+    setToken(token); // save the fresh token for API calls
+  };
+
+  checkUser();
+}, [navigate]);
+
 
   // IMAGE UPLOAD
   const handleImageUpload = (e) => {
@@ -70,83 +74,79 @@ const ProfileDetails = () => {
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
-      setError("Only image files are allowed");
+      toast.error("Only image files are allowed");
       return;
     }
 
-    setError("");
     setImageFile(file);
     setPreview(URL.createObjectURL(file));
   };
 
   // SAVE PROFILE
-  const handleSave = async () => {
-    setError("");
+// ... all imports remain the same
 
-    if (!imageFile) return setError("Profile image is required");
-    if (!username.trim()) return setError("Username is required");
-    if (!instagram.trim()) return setError("Instagram ID is required");
+const handleSave = async () => {
 
-    try {
-      setLoading(true);
+  if (!imageFile) return toast.error("Profile image is required");
+  if (!username.trim()) return toast.error("Username is required");
+  if (!instagram.trim()) return toast.error("Instagram ID is required");
 
-      const auth = getAuth();
-      const user = auth.currentUser;
+  try {
+    setLoading(true);
 
-      if (!user) {
-        navigate("/signup");
-        return;
-      }
+    const auth = getAuth();
+    const user = auth.currentUser;
 
-      await user.reload(); // ⭐ double-check verification before save
-
-      if (!user.emailVerified) {
-        setError("Please verify your email before continuing");
-        setLoading(false);
-        return;
-      }
-
-      const token = await user.getIdToken();
-      const uid = user.uid;
-      const email = user.email;
-
-      // Upload image
-      const imageRef = ref(storage, `profiles/${uid}`);
-      await uploadBytes(imageRef, imageFile);
-      const imageUrl = await getDownloadURL(imageRef);
-
-      // Backend call
-      const res = await fetch(
-        "https://snap-wall-backend.vercel.app/api/auth/create-profile",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            uid,
-            email,
-            username,
-            instagram,
-            imageUrl,
-          }),
-        }
-      );
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
-
-      navigate("/success");
-    } catch (err) {
-      setError(err.message || "Something went wrong");
-    } finally {
-      setLoading(false);
+    if (!user) {
+      navigate("/signup");
+      return;
     }
-  };
+
+    await user.reload();
+
+    if (!user.emailVerified) {
+      toast.error("Please verify your email before continuing");
+      setLoading(false);
+      return;
+    }
+
+    const token = await user.getIdToken(true); // 🔥 force refreshed token
+    const uid = user.uid;
+    const email = user.email;
+
+    const imageRef = ref(storage, `profiles/${uid}`);
+    await uploadBytes(imageRef, imageFile);
+    const imageUrl = await getDownloadURL(imageRef);
+
+    const res = await fetch(`https://snap-wall-backend.vercel.app/api/auth/create-profile`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        username,
+        instagram,
+        imageUrl,
+        acceptedTerms: true
+      }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+
+    navigate("/success");
+  } catch (err) {
+    toast.error(err.message || "Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const isFormValid =
-    username.trim() && instagram.trim() && imageFile && !loading;
+  username.trim() && instagram.trim() && imageFile && acceptedTerms && !loading;
+
 
   return (
     <div className="login-wrapper">
@@ -166,7 +166,6 @@ const ProfileDetails = () => {
       <div className="profile-wrapper">
         <h2 className="profile-title">Profile Details</h2>
         <p className="profile-subtitle">Enter your details to continue</p>
-
         <div className="avatar-section">
           <div className="avatar-circle">
             {preview ? <img src={preview} alt="avatar" /> : <span>+</span>}
@@ -199,7 +198,25 @@ const ProfileDetails = () => {
           onChange={(e) => setInstagram(e.target.value)}
         />
 
-        {error && <p className="error-text">{error}</p>}
+            <div className="terms-box">
+        <label className="terms-label">
+          <input
+            type="checkbox"
+            checked={acceptedTerms}
+            onChange={(e) => setAcceptedTerms(e.target.checked)}
+          />
+          <span>
+            I agree to the{" "}
+            <a href="/terms" target="_blank" rel="noopener noreferrer">
+              Terms & Conditions
+            </a>{" "}
+            and{" "}
+            <a href="/privacy" target="_blank" rel="noopener noreferrer">
+              Privacy Policy
+            </a>
+          </span>
+        </label>
+      </div>
 
         <button
           className="verify-btn"

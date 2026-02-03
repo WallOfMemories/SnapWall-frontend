@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import toast from "react-hot-toast";
 import "./Forgot.css";
 
 import img1 from "../assets/image-1.png";
@@ -10,16 +12,16 @@ import img5 from "../assets/image-5.png";
 
 const images = [img1, img2, img3, img4, img5];
 
-// ✅ Email validation
+// Email validation
 const isValidEmail = (email) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+  const auth = getAuth();
 
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // image slider
   const [index, setIndex] = useState(0);
@@ -40,43 +42,43 @@ const ForgotPassword = () => {
   }, [nextIndex]);
 
   const handleSubmit = async () => {
-    setError("");
-    setSuccess("");
 
     if (!email) {
-      setError("Please enter your email");
+      toast.error("Please enter your email");
       return;
     }
 
     if (!isValidEmail(email)) {
-      setError("Please enter a valid email address");
+      toast.error("Please enter a valid email address");
       return;
     }
 
+
     try {
-      const res = await fetch(
-        "https://snap-wall-backend.vercel.app/api/auth/forgot-password",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        }
-      );
+      setLoading(true);
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      await sendPasswordResetEmail(auth, email);
 
-      setSuccess("Password reset link sent to your email");
+      toast.success("Password reset link sent to your email");
 
-      setTimeout(() => navigate("/login"), 2000);
+      setTimeout(() => navigate("/login"), 2500);
     } catch (err) {
-      setError(err.message || "Failed to send reset link");
+      console.error(err);
+
+      if (err.code === "auth/user-not-found") {
+        toast.error("No account found with this email");
+      } else if (err.code === "auth/invalid-email") {
+        toast.error("Invalid email address");
+      } else {
+        toast.error("Failed to send reset link. Try again later.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-wrapper">
-      {/* LEFT IMAGE */}
       <div className="login-image">
         <img
           src={images[index]}
@@ -90,39 +92,35 @@ const ForgotPassword = () => {
         />
       </div>
 
-      {/* RIGHT FORM */}
       <div className="login-form">
         <h1 className="hero-title">Forgot Password</h1>
 
         <p className="hero-subtitle">
           Enter your email to reset your password
         </p>
-
+        <div className="form-box">
         <input
           type="email"
           placeholder="Enter email"
-          className={`input-box ${
-            error && !isValidEmail(email) ? "input-error" : ""
-          }`}
+          className="input-box"
           value={email}
           onChange={(e) => setEmail(e.target.value.toLowerCase())}
+          disabled={loading}
         />
-
-        {error && <p className="error-text">{error}</p>}
-        {success && <p className="success-text">{success}</p>}
 
         <button
           className="verify-btn"
           onClick={handleSubmit}
-          disabled={!email || !isValidEmail(email)}
+          disabled={!email || !isValidEmail(email) || loading}
         >
-          Send Link
+          {loading ? "Sending..." : "Send Link"}
         </button>
 
         <p className="signup-text">
           Remembered your password?{" "}
           <span onClick={() => navigate("/login")}>Login</span>
         </p>
+        </div>
       </div>
     </div>
   );

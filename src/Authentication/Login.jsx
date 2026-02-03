@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import toast from "react-hot-toast";
+
+
 
 import img1 from "../assets/image-1.png";
 import img2 from "../assets/image-2.png";
@@ -22,7 +28,7 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   // Image slider states
   const [index, setIndex] = useState(0);
@@ -43,24 +49,49 @@ const Login = () => {
     return () => clearInterval(interval);
   }, [nextIndex]);
 
+  const handleGoogleLogin = async () => {
+
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // 🔥 Check if user profile exists in Firestore
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (!userDoc.exists()) {
+        // 🚀 New user → needs profile setup
+        navigate("/profile-details");
+      } else {
+        // ✅ Existing user
+        navigate("/");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Google sign-in failed. Try again.");
+    }
+  };
+
+
   const handleLogin = async () => {
-    setError("");
 
     if (!email || !password) {
-      setError("Please fill all fields");
+      toast.error("Please fill all fields");
       return;
     }
 
     if (!isValidEmail(email)) {
-      setError("Please enter a valid email address");
+      toast.error("Please enter a valid email address");
       return;
     }
+
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/");
     } catch (err) {
-      setError("Invalid email or password");
+      toast.error("Invalid email or password");
     }
   };
 
@@ -94,24 +125,31 @@ const Login = () => {
 
         <h2 className="login-title">Login</h2>
         <p className="login-desc">Enter your details to continue</p>
-
+        <div className="form-box">
         <input
           type="email"
           placeholder="Enter email"
-          className={`input-box ${error && !isValidEmail(email) ? "input-error" : ""}`}
+          className="input-box"
           value={email}
           onChange={(e) => setEmail(e.target.value.toLowerCase())}
         />
 
-        <input
-          type="password"
-          placeholder="Enter password"
-          className="input-box"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="password-field">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter password"
+            className="input-box"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <span
+            className="eye-icon"
+            onClick={() => setShowPassword((prev) => !prev)}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+        </div>
 
-        {error && <p className="error-text">{error}</p>}
 
         <div className="forgot" onClick={() => navigate("/forgot")}>
           Forgot password?
@@ -125,10 +163,20 @@ const Login = () => {
           Login
         </button>
 
+
         <p className="signup-text">
           Don’t have an account?{" "}
           <span onClick={() => navigate("/signup")}>Signup</span>
         </p>
+
+        <button className="google-btn" onClick={handleGoogleLogin}>
+          <img
+            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+            alt="google"
+          />
+          Continue with Google
+        </button>
+        </div>
       </div>
     </div>
   );

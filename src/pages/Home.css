@@ -8,7 +8,7 @@
 
 /* VIEWPORT (camera window) */
 .memory-viewport {
-  height: calc(100vh - 80px);
+  height: calc(100vh - 65px);
   width: 100%;
   overflow: auto;
   position: relative;
