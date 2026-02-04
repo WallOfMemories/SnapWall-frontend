@@ -10,12 +10,12 @@ const Footer = () => {
         <p className="footer-subtitle">
             Designed and Developed By{" "}
         <a
-            href="https://www.instagram.com/uicoderz"
+            href="https://www.instagram.com/vignesh_makthala"
             target="_blank"
             rel="noopener noreferrer"
             className="insta-link"
             >
-            @UIcoderz
+            @vignesh_makthala
         </a>
         </p>
       </div>
