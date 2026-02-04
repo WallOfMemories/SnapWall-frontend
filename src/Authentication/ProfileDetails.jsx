@@ -86,10 +86,10 @@ useEffect(() => {
 // ... all imports remain the same
 
 const handleSave = async () => {
-
   if (!imageFile) return toast.error("Profile image is required");
   if (!username.trim()) return toast.error("Username is required");
   if (!instagram.trim()) return toast.error("Instagram ID is required");
+  if (!acceptedTerms) return toast.error("You must accept Terms & Privacy Policy");
 
   try {
     setLoading(true);
@@ -106,31 +106,32 @@ const handleSave = async () => {
 
     if (!user.emailVerified) {
       toast.error("Please verify your email before continuing");
-      setLoading(false);
       return;
     }
 
-    const token = await user.getIdToken(true); // 🔥 force refreshed token
+    const token = await user.getIdToken(true);
     const uid = user.uid;
-    const email = user.email;
 
     const imageRef = ref(storage, `profiles/${uid}`);
     await uploadBytes(imageRef, imageFile);
     const imageUrl = await getDownloadURL(imageRef);
 
-    const res = await fetch(`https://snap-wall-backend.vercel.app/api/auth/create-profile`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", 
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        username,
-        instagram,
-        imageUrl,
-        acceptedTerms: true
-      }),
-    });
+    const res = await fetch(
+      "https://snap-wall-backend.vercel.app/api/auth/create-profile",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          username,
+          instagram,
+          imageUrl,
+          acceptedTerms: true,
+        }),
+      }
+    );
 
     const data = await res.json();
     if (!res.ok) throw new Error(data.message);
@@ -142,6 +143,7 @@ const handleSave = async () => {
     setLoading(false);
   }
 };
+
 
 
   const isFormValid =
