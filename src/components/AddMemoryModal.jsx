@@ -188,7 +188,7 @@ const AddMemoryModal = ({ onClose }) => {
             <textarea
               className="gradient-input caption-box"
               placeholder="Caption"
-              maxLength={40}
+              maxLength={60}
               value={caption}
               onChange={(e) => setCaption(e.target.value)}
             />
